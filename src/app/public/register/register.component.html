@@ -1,0 +1,37 @@
+<div *ngIf="showMessage">
+  {{message}}
+</div>
+<div>
+  <label for="username">username</label>
+  <input id="username" [(ngModel)]="username">
+</div>
+
+<div>
+  <label for="password">password</label>
+  <input id="password" [(ngModel)]="password">
+</div>
+
+<div>
+  <label for="firstname">first name</label>
+  <input id="firstname" [(ngModel)]="firstname">
+</div>
+
+<div>
+  <label for="lastname">last name</label>
+  <input id="lastname" [(ngModel)]="lastname">
+</div>
+
+<div>
+  <label for="email">email</label>
+  <input id="email" [(ngModel)]="email">
+</div>
+
+<div>
+  <label for="phone">phone</label>
+  <input id="phone" [(ngModel)]="phone">
+</div>
+
+
+<button (click)="onSubmit()">
+  Submit
+</button>
