@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app.routing.module';
 import {PublicModule} from './public/public.module';
+import {ClientModule} from './client/client.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import {PublicModule} from './public/public.module';
   imports: [
     BrowserModule,
     PublicModule,
+    ClientModule,
     AppRoutingModule
   ],
   providers: [],

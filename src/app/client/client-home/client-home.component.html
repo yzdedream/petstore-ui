@@ -1,0 +1,31 @@
+<div *ngIf="!isEditing">
+  <p>username: {{user.username}}</p>
+  <p>First name: {{user.firstName}}</p>
+  <p>Last name: {{user.lastName}}</p>
+  <p>Email: {{user.email}}</p>
+  <p>Phone: {{user.phone}}</p>
+  <button (click)="onEdit()">Edit</button>
+</div>
+
+<div *ngIf="isEditing">
+  <div>
+    <label for="firstname">First name</label>
+    <input id="firstname" [(ngModel)]="user.firstName">
+  </div>
+  <div>
+    <label for="lastname">Last name</label>
+    <input id="lastname" [(ngModel)]="user.lastName">
+  </div>
+  <div>
+    <label for="email">Email</label>
+    <input id="email" [(ngModel)]="user.email">
+  </div>
+  <div>
+    <label for="phone">Phone</label>
+    <input id="phone" [(ngModel)]="user.phone">
+  </div>
+  <button (click)="onSubmit()">Submit</button>
+  <button (click)="onCancel()">Cancel</button>
+</div>
+
+
