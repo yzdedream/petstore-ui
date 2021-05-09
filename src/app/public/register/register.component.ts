@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../core/user.service';
-import {ApiResponse, UserCreateForm} from '../../core/http/UserEndpoint';
+import {UserService} from '../../core/user/user.service';
+import {ApiResponse, AppUserCreateForm} from '../../core/apina/apina';
 
 @Component({
   selector: 'app-register',
@@ -25,12 +25,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const userCreateForm: UserCreateForm = new UserCreateForm();
-    userCreateForm.username = this.username;
-    userCreateForm.firstName = this.firstname;
-    userCreateForm.lastName = this.lastname;
-    userCreateForm.email = this.email;
-    userCreateForm.phone = this.phone;
+    const userCreateForm: AppUserCreateForm = {
+      username: this.username,
+      firstName: this.firstname,
+      lastName: this.lastname,
+      email: this.email,
+      phone: this.phone
+    };
 
     this.userService.register(userCreateForm).subscribe(
       (res: ApiResponse) => {

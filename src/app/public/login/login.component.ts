@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../core/user.service';
-import {AppUser} from '../../core/http/UserEndpoint';
+import {UserService} from '../../core/user/user.service';
 import {Router} from '@angular/router';
+import {AppUser} from '../../core/apina/apina';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.userService.login().subscribe(
       (user: AppUser) => {
-        this.userService.currentUser = user;
-        this.router.navigate(['']);
+        this.router.navigate(['/home']);
       },
       error => {
         // show message
