@@ -7,6 +7,7 @@ export interface Dictionary<V> {
     [key: string]: V;
 }
 
+export type Timestamp = {};
 
 
 export interface ApiResponse {
@@ -38,11 +39,26 @@ export interface AppUserUpdateForm {
     firstName: string;
     lastName: string;
     phone: string;
+    userStatus: string;
 }
 
 export interface Category {
     id: number;
     name: string;
+}
+
+export interface Order {
+    complete: boolean;
+    id: number;
+    petId: number;
+    quantity: number;
+    shipDate: Timestamp;
+    status: string;
+}
+
+export interface OrderCreateForm {
+    petId: number;
+    quantity: number;
 }
 
 export interface Pet {
@@ -69,12 +85,12 @@ export interface PetUpdateForm {
 }
 
 export interface Tag {
-    empty: boolean;
     id: number;
     name: string;
 }
 
 export function registerDefaultSerializers(config: ApinaConfig) {
+    config.registerIdentitySerializer('Timestamp');
 
 
     config.registerClassSerializer('ApiResponse', {
@@ -105,12 +121,27 @@ export function registerDefaultSerializers(config: ApinaConfig) {
         'email': 'string',
         'firstName': 'string',
         'lastName': 'string',
-        'phone': 'string'
+        'phone': 'string',
+        'userStatus': 'string'
     });
 
     config.registerClassSerializer('Category', {
         'id': 'number',
         'name': 'string'
+    });
+
+    config.registerClassSerializer('Order', {
+        'complete': 'boolean',
+        'id': 'number',
+        'petId': 'number',
+        'quantity': 'number',
+        'shipDate': 'Timestamp',
+        'status': 'string'
+    });
+
+    config.registerClassSerializer('OrderCreateForm', {
+        'petId': 'number',
+        'quantity': 'number'
     });
 
     config.registerClassSerializer('Pet', {
@@ -137,7 +168,6 @@ export function registerDefaultSerializers(config: ApinaConfig) {
     });
 
     config.registerClassSerializer('Tag', {
-        'empty': 'boolean',
         'id': 'number',
         'name': 'string'
     });
@@ -487,7 +517,7 @@ export class PetEndpoint {
         });
     }
 
-    deltePet(petId: number): Observable<void> {
+    deletePet(petId: number): Observable<void> {
         return this.context.request({
             'uriTemplate': '/pet/{petId}',
             'method': 'DELETE',
@@ -535,6 +565,48 @@ export class PetEndpoint {
 }
 
 @Injectable()
+export class ShopEndpoint {
+    constructor(private context: ApinaEndpointContext) {
+    }
+
+    createOrder(form: OrderCreateForm): Observable<number> {
+        return this.context.request({
+            'uriTemplate': '/shop/order',
+            'method': 'POST',
+            'requestBody': this.context.serialize(form, 'OrderCreateForm'),
+            'responseType': 'number'
+        });
+    }
+
+    deleteOrder(orderId: number): Observable<void> {
+        return this.context.request({
+            'uriTemplate': '/shop/order/{orderId}',
+            'method': 'DELETE',
+            'pathVariables': {
+                'orderId': this.context.serialize(orderId, 'number')
+            }
+        });
+    }
+
+    getInventory(): Observable<Pet[]> {
+        return this.context.request({
+            'uriTemplate': '/shop/inventory',
+            'method': 'GET',
+            'responseType': 'Pet[]'
+        });
+    }
+
+    getOrders(): Observable<Order[]> {
+        return this.context.request({
+            'uriTemplate': '/shop/orders',
+            'method': 'GET',
+            'responseType': 'Order[]'
+        });
+    }
+
+}
+
+@Injectable()
 export class UserEndpoint {
     constructor(private context: ApinaEndpointContext) {
     }
@@ -544,6 +616,15 @@ export class UserEndpoint {
             'uriTemplate': '/user',
             'method': 'POST',
             'requestBody': this.context.serialize(user, 'AppUserCreateForm'),
+            'responseType': 'ApiResponse'
+        });
+    }
+
+    createWithList(forms: AppUserCreateForm[]): Observable<ApiResponse> {
+        return this.context.request({
+            'uriTemplate': '/user/createWithList',
+            'method': 'POST',
+            'requestBody': this.context.serialize(forms, 'AppUserCreateForm[]'),
             'responseType': 'ApiResponse'
         });
     }
@@ -559,14 +640,15 @@ export class UserEndpoint {
         });
     }
 
-    updateUser(form: AppUserUpdateForm, username: string): Observable<void> {
+    updateUser(form: AppUserUpdateForm, username: string): Observable<ApiResponse> {
         return this.context.request({
             'uriTemplate': '/user/{username}',
             'method': 'PUT',
             'pathVariables': {
                 'username': this.context.serialize(username, 'string')
             },
-            'requestBody': this.context.serialize(form, 'AppUserUpdateForm')
+            'requestBody': this.context.serialize(form, 'AppUserUpdateForm'),
+            'responseType': 'ApiResponse'
         });
     }
 
@@ -582,6 +664,7 @@ export function apinaConfigFactory() {
     providers: [
         HelloWorldEndpoint,
         PetEndpoint,
+        ShopEndpoint,
         UserEndpoint,
         { provide: ApinaEndpointContext, useClass: DefaultApinaEndpointContext },
         { provide: ApinaConfig, useFactory: apinaConfigFactory }

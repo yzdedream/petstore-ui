@@ -27,7 +27,8 @@ export class ClientHomeComponent implements OnInit {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
-      phone: this.user.phone
+      phone: this.user.phone,
+      userStatus: this.user.userStatus
     };
     this.userService.updateUser(form).subscribe(
       () => {

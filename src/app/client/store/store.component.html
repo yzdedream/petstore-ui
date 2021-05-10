@@ -1,3 +1,17 @@
-<p>
-  store works!
-</p>
+<button (click)="onOrders()">Orders</button>
+<div>
+  <ul>
+    <li *ngFor="let pet of inventory">
+      <div>
+
+        <p>Name: {{pet.name}}</p>
+        <p>Category: {{pet.category.name}}</p>
+        <p>Status: {{pet.status}}</p>
+        <p>Tags: <span *ngFor="let tag of pet.tags">
+         {{tag.name}}</span>
+        </p>
+      </div>
+      <button (click)="onBuy(pet.id)">Buy</button>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <div *ngIf="!orders || orders.length === 0">Empty</div>
+  <ol>
+    <li *ngFor="let order of orders">
+      <p> Pet ID: {{order.petId}}</p>
+      <p> Quantity: {{order.quantity}}</p>
+      <p> Status: {{order.status}}</p>
+      <button (click)="onDelete(order.id)">
+        Delete
+      </button>
+    </li>
+  </ol>
+</mat-dialog-content>

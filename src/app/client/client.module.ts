@@ -12,9 +12,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {CreatePetComponent} from './pet/create/create-pet.component';
 import {CategoryComponent} from './pet/category/category.component';
 import {PetService} from './pet/pet.service';
-import { TagsComponent } from './pet/tags/tags.component';
+import {TagsComponent} from './pet/tags/tags.component';
 import {MatSelectModule} from '@angular/material/select';
-import { PetDetailComponent } from './pet/detail/pet-detail.component';
+import {PetDetailComponent} from './pet/detail/pet-detail.component';
+import {StoreService} from './store/store.service';
+import {OrdersComponent} from './store/orders/orders.component';
 
 @NgModule({
   imports: [
@@ -35,16 +37,19 @@ import { PetDetailComponent } from './pet/detail/pet-detail.component';
     CreatePetComponent,
     CategoryComponent,
     TagsComponent,
-    PetDetailComponent
+    PetDetailComponent,
+    OrdersComponent
   ],
   entryComponents: [
     CreatePetComponent,
     CategoryComponent,
     TagsComponent,
-    PetDetailComponent
+    PetDetailComponent,
+    OrdersComponent
   ],
   providers: [
-    PetService
+    PetService,
+    StoreService
   ]
 })
 export class ClientModule {
