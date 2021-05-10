@@ -15,7 +15,7 @@ export class CreatePetComponent implements OnInit {
 
   name: string;
   categoryId: number;
-  status: string;
+  status = 'available';
 
   selectedTags = new FormControl();
 
