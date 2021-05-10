@@ -36,6 +36,6 @@ export class PetService {
   }
 
   deletePet(petId: number) {
-    return this.petEndpoint.deltePet(petId);
+    return this.petEndpoint.deletePet(petId);
   }
 }
