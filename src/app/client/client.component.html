@@ -1,5 +1,6 @@
 <div>
-
+  <label>Manager mode</label>
+  <input [(ngModel)]="isManager" type="checkbox">
 </div>
 <div>
   <nav>
@@ -9,7 +10,7 @@
           Home
         </a>
       </li>
-      <li>
+      <li *ngIf="isManager">
         <a routerLink="/pets">
           Pets
         </a>
