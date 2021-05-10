@@ -1,0 +1,39 @@
+<div>
+  <div>
+    <label for="name">Name: </label>
+    <input id="name" [(ngModel)]="pet.name">
+  </div>
+
+  <div>
+    Category: {{pet.category.name}}
+  </div>
+
+  <div>
+    <label for="status">Status</label>
+    <select id="status" [(ngModel)]="pet.status">
+      <option value="available">
+        Available
+      </option>
+      <option value="reserved">
+        Reserved
+      </option>
+      <option value="sold">
+        Sold
+      </option>
+    </select>
+  </div>
+
+  <div>
+    <mat-label>Tags</mat-label>
+    <mat-select multiple [(value)]="selectedTags">
+      <mat-option *ngFor="let tag of tags" [value]="tag.id">
+        {{tag.name}}
+      </mat-option>
+    </mat-select>
+  </div>
+</div>
+
+<div>
+  <button (click)="onSave()">Save</button>
+  <button (click)="onDelete()">Delete Pet</button>
+</div>

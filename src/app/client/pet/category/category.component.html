@@ -1,0 +1,19 @@
+<mat-dialog-content>
+  <div>
+    <button (click)="onNewCategory()">
+      new category
+    </button>
+  </div>
+
+  <div *ngIf="isCreatingCategory">
+    <input [(ngModel)]="newCategoryName" id="name">
+    <button (click)="onCreate()">Create</button>
+  </div>
+  <div>
+    <ol>
+      <li *ngFor="let category of categories">
+        {{category.name}}
+      </li>
+    </ol>
+  </div>
+</mat-dialog-content>

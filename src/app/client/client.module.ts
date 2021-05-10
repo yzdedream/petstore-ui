@@ -6,8 +6,15 @@ import {RouterModule} from '@angular/router';
 import {ClientHomeComponent} from './client-home/client-home.component';
 import {StoreComponent} from './store/store.component';
 import {PetComponent} from './pet/pet.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ApinaModule} from '../core/apina/apina';
+import {MatDialogModule} from '@angular/material/dialog';
+import {CreatePetComponent} from './pet/create/create-pet.component';
+import {CategoryComponent} from './pet/category/category.component';
+import {PetService} from './pet/pet.service';
+import { TagsComponent } from './pet/tags/tags.component';
+import {MatSelectModule} from '@angular/material/select';
+import { PetDetailComponent } from './pet/detail/pet-detail.component';
 
 @NgModule({
   imports: [
@@ -15,13 +22,29 @@ import {ApinaModule} from '../core/apina/apina';
     CoreModule,
     RouterModule,
     FormsModule,
-    ApinaModule
+    ApinaModule,
+    MatDialogModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ClientComponent,
     ClientHomeComponent,
     StoreComponent,
-    PetComponent
+    PetComponent,
+    CreatePetComponent,
+    CategoryComponent,
+    TagsComponent,
+    PetDetailComponent
+  ],
+  entryComponents: [
+    CreatePetComponent,
+    CategoryComponent,
+    TagsComponent,
+    PetDetailComponent
+  ],
+  providers: [
+    PetService
   ]
 })
 export class ClientModule {

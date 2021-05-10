@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <div>
+    <button (click)="onNewTag()">New Tag</button>
+  </div>
+  <div>
+    <div *ngIf="isCreating">
+      <input id="name" [(ngModel)]="newTagName">
+      <button (click)="onSubmit()">Submit</button>
+    </div>
+    <div *ngFor="let tag of tags">
+      {{tag.name}}
+    </div>
+  </div>
+
+</mat-dialog-content>

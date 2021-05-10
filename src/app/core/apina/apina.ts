@@ -40,6 +40,40 @@ export interface AppUserUpdateForm {
     phone: string;
 }
 
+export interface Category {
+    id: number;
+    name: string;
+}
+
+export interface Pet {
+    category: Category;
+    id: number;
+    name: string;
+    photoUrls: string[];
+    status: string;
+    tags: Tag[];
+}
+
+export interface PetCreateForm {
+    categoryId: number;
+    name: string;
+    status: string;
+    tagIDs: number[];
+}
+
+export interface PetUpdateForm {
+    categoryId: number;
+    name: string;
+    status: string;
+    tagIDs: number[];
+}
+
+export interface Tag {
+    empty: boolean;
+    id: number;
+    name: string;
+}
+
 export function registerDefaultSerializers(config: ApinaConfig) {
 
 
@@ -72,6 +106,40 @@ export function registerDefaultSerializers(config: ApinaConfig) {
         'firstName': 'string',
         'lastName': 'string',
         'phone': 'string'
+    });
+
+    config.registerClassSerializer('Category', {
+        'id': 'number',
+        'name': 'string'
+    });
+
+    config.registerClassSerializer('Pet', {
+        'category': 'Category',
+        'id': 'number',
+        'name': 'string',
+        'photoUrls': 'string[]',
+        'status': 'string',
+        'tags': 'Tag[]'
+    });
+
+    config.registerClassSerializer('PetCreateForm', {
+        'categoryId': 'number',
+        'name': 'string',
+        'status': 'string',
+        'tagIDs': 'number[]'
+    });
+
+    config.registerClassSerializer('PetUpdateForm', {
+        'categoryId': 'number',
+        'name': 'string',
+        'status': 'string',
+        'tagIDs': 'number[]'
+    });
+
+    config.registerClassSerializer('Tag', {
+        'empty': 'boolean',
+        'id': 'number',
+        'name': 'string'
     });
 
 }
@@ -388,6 +456,85 @@ export class HelloWorldEndpoint {
 }
 
 @Injectable()
+export class PetEndpoint {
+    constructor(private context: ApinaEndpointContext) {
+    }
+
+    createCategory(name: string): Observable<number> {
+        return this.context.request({
+            'uriTemplate': '/pet/category',
+            'method': 'POST',
+            'requestBody': this.context.serialize(name, 'string'),
+            'responseType': 'number'
+        });
+    }
+
+    createPet(form: PetCreateForm): Observable<number> {
+        return this.context.request({
+            'uriTemplate': '/pet',
+            'method': 'POST',
+            'requestBody': this.context.serialize(form, 'PetCreateForm'),
+            'responseType': 'number'
+        });
+    }
+
+    createTag(name: string): Observable<number> {
+        return this.context.request({
+            'uriTemplate': '/pet/tag',
+            'method': 'POST',
+            'requestBody': this.context.serialize(name, 'string'),
+            'responseType': 'number'
+        });
+    }
+
+    deltePet(petId: number): Observable<void> {
+        return this.context.request({
+            'uriTemplate': '/pet/{petId}',
+            'method': 'DELETE',
+            'pathVariables': {
+                'petId': this.context.serialize(petId, 'number')
+            }
+        });
+    }
+
+    getCategories(): Observable<Category[]> {
+        return this.context.request({
+            'uriTemplate': '/pet/categories',
+            'method': 'GET',
+            'responseType': 'Category[]'
+        });
+    }
+
+    getPets(): Observable<Pet[]> {
+        return this.context.request({
+            'uriTemplate': '/pet',
+            'method': 'GET',
+            'responseType': 'Pet[]'
+        });
+    }
+
+    getTags(): Observable<Tag[]> {
+        return this.context.request({
+            'uriTemplate': '/pet/tags',
+            'method': 'GET',
+            'responseType': 'Tag[]'
+        });
+    }
+
+    updatePet(form: PetUpdateForm, petId: number): Observable<void> {
+        return this.context.request({
+            'uriTemplate': '/pet/{petId}',
+            'method': 'PUT',
+            'pathVariables': {
+                'petId': this.context.serialize(petId, 'number')
+            },
+            'requestBody': this.context.serialize(form, 'PetUpdateForm')
+        });
+    }
+
+}
+
+@Injectable()
 export class UserEndpoint {
     constructor(private context: ApinaEndpointContext) {
     }
@@ -434,6 +581,7 @@ export function apinaConfigFactory() {
     imports: [HttpClientModule],
     providers: [
         HelloWorldEndpoint,
+        PetEndpoint,
         UserEndpoint,
         { provide: ApinaEndpointContext, useClass: DefaultApinaEndpointContext },
         { provide: ApinaConfig, useFactory: apinaConfigFactory }

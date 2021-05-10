@@ -1,0 +1,41 @@
+<mat-dialog-content class="mat-typography">
+  <div>
+    <div>
+      <label for="name">name</label>
+      <input [(ngModel)]="name" id="name">
+    </div>
+
+    <div>
+      <label for="category">category</label>
+      <select id="category" [(ngModel)]="categoryId">
+        <option *ngFor="let category of categories"
+                [value]="category.id">
+          {{category.name}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="status">status</label>
+      <select id="status" [(ngModel)]="status">
+        <option defaultSelected [value]="'available'">
+          available
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Tags: </label>
+      <mat-select multiple [formControl]="selectedTags">
+        <mat-option *ngFor="let tag of tags" [value]="tag.id">
+          {{tag.name}}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-dialog-close>Cancel</button>
+  <button (click)="onCreate()">Create</button>
+</mat-dialog-actions>

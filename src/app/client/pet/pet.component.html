@@ -1,3 +1,19 @@
-<p>
-  pet works!
-</p>
+<div>
+  <button (click)="onCreatePet()">Create Pet</button>
+  <button (click)="onCategory()">Category</button>
+  <button (click)="onTags()">Tags</button>
+</div>
+<div>
+  <ul>
+    <li *ngFor="let pet of pets">
+      <div>
+        <p>Name: {{pet.name}}</p>
+        <p>Category: {{pet.category.name}}</p>
+        <p>Tags: <span *ngFor="let tag of pet.tags">
+          {{tag.name}}</span>
+        </p>
+        <button (click)="onEdit(pet.id)">Edit</button>
+      </div>
+    </li>
+  </ul>
+</div>
