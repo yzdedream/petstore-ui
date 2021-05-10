@@ -1,4 +1,7 @@
 <mat-dialog-content class="mat-typography">
+  <div *ngIf="isError">
+    {{errorMessage}}
+  </div>
   <div>
     <div>
       <label for="name">name</label>

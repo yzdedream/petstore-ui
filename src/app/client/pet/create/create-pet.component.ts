@@ -19,6 +19,9 @@ export class CreatePetComponent implements OnInit {
 
   selectedTags = new FormControl();
 
+  isError = false;
+  errorMessage = '';
+
   constructor(private petService: PetService,
               private dialogRef: MatDialogRef<CreatePetComponent>) {
   }
@@ -32,14 +35,14 @@ export class CreatePetComponent implements OnInit {
       .subscribe(
         categories => this.categories = categories,
         error => {
-          // show error message
+          this.showError('error getting categories');
         }
       );
 
     this.petService.getTags().subscribe(
       tags => this.tags = tags,
       error => {
-        // show error message
+        this.showError('error getting tags');
       });
   }
 
@@ -56,8 +59,17 @@ export class CreatePetComponent implements OnInit {
         this.dialogRef.close();
       },
       (error) => {
-        // show error message
+        this.showError('error in creating pet');
       }
     );
+  }
+
+  private showError(msg: string) {
+    this.isError = true;
+    this.errorMessage = msg;
+    setTimeout(() => {
+      this.isError = false;
+      this.errorMessage = '';
+    }, 2000);
   }
 }
